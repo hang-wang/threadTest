@@ -9,10 +9,12 @@ public class UnsafeList {
         List<String> list=new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
             new Thread(()->{
-               list.add(Thread.currentThread().getName());
+                synchronized (list){
+                    list.add(Thread.currentThread().getName());
+                }
             }).start();
         }
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         System.out.println(list.size());
     }
 }

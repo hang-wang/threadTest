@@ -37,22 +37,26 @@ class Drawing extends Thread {
         this.account = account;
         this.drawingMoney = drawingMoney;
     }
-
+    //synchronized默认锁的是this，锁银行没用，应该锁账户，因为账户是变化的
     @Override
-    public void run() {
-        if (account.money - drawingMoney < 0) {
-            System.out.println(Thread.currentThread().getName() + "钱不够了，无法取款");
-            return;
+    public  void run() {
+        //操作的是账户,所以锁账户
+        //同步块可以锁任何对象
+        synchronized (account){
+            if (account.money - drawingMoney < 0) {
+                System.out.println(Thread.currentThread().getName() + "钱不够了，无法取款");
+                return;
+            }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            account.money = account.money - drawingMoney;
+            nowMoney = nowMoney + drawingMoney;
+            System.out.println(account.name + "余额为" + account.money);
+            System.out.println(this.getName() + "手里有" + nowMoney);
         }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        account.money = account.money - drawingMoney;
-        nowMoney = nowMoney + drawingMoney;
-        System.out.println(account.name + "余额为" + account.money);
-        System.out.println(this.getName() + "手里有" + nowMoney);
 
     }
 }

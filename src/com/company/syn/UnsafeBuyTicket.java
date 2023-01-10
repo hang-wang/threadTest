@@ -21,7 +21,10 @@ class BuyTicket implements Runnable{
            Buy();
         }
     }
-    private void  Buy(){
+    //不安全的买票
+    //private  void  Buy(){
+    //加锁解决问题
+    private synchronized void  Buy(){
         //判断是否有票
         if(ticketNums<=0){
             flag=false;
