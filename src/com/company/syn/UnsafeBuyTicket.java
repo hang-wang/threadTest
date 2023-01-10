@@ -2,6 +2,7 @@ package com.company.syn;
 
 //不安全的买票
 //线程不安全，有负数
+//每个线程在自己的工作内存交互，内存控制不当会造成数据不一致
 public class UnsafeBuyTicket {
     public static void main(String[] args) {
         BuyTicket buyTicket=new BuyTicket();
